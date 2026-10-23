@@ -1,6 +1,6 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "agogo",
+  "name": "AGoGo",
   "version": "0.1.1",
   "description": "Schedule simple Go nudges for long-running AI work in ChatGPT.",
   "author": {
