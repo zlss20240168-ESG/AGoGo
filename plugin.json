@@ -1,0 +1,17 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "agogo",
+  "version": "0.1.0",
+  "description": "Schedule simple Go nudges for long-running AI work in ChatGPT.",
+  "author": {
+    "name": "ZLSS"
+  },
+  "repository": "https://github.com/zlss20240168-ESG/AGoGo",
+  "license": "MIT",
+  "keywords": ["scheduler", "watchdog", "workflow", "research", "productivity"],
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/agogo/SKILL.md"
+    }
+  }
+}
