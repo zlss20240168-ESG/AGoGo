@@ -5,40 +5,39 @@ description: Use AGoGo when the user explicitly invokes AGoGo with T (total runs
 
 # AGoGo
 
-AGoGo is a lightweight scheduler for continuing the current AI work context with the fixed message `Go`.
+Use the current conversation as the work context. Do not ask the user to name or describe the project again.
 
-## Start command
+Do not create any schedule merely because AGoGo was installed, enabled, opened, or mentioned. Create a schedule only after an explicit valid start command.
+
+## Start
 
 `@AGoGo Tn, Dn`
 
-Interpret the parameters in this fixed order:
-
-- `T` = total number of executions.
-- `D` = interval in hours.
-- Accept one or two digits.
-- `0` means `100`.
+Rules:
+- T is the total number of executions.
+- D is the interval in hours.
+- T must appear before D.
+- Accept one or two digits for T and D.
+- `0` or `00` means 100.
+- No infinite mode.
+- Each scheduled continuation message must be exactly `Go`.
 
 Examples:
-
 - `@AGoGo T10, D04` = 10 executions, every 4 hours.
 - `@AGoGo T1, D1` = 1 execution after 1 hour.
 - `@AGoGo T0, D1` = 100 executions, every 1 hour.
 - `@AGoGo T10, D0` = 10 executions, every 100 hours.
 
-When the user sends a valid start command, use the current work/chat as the target automatically. Create the cloud schedule for exactly T executions separated by D hours. Each scheduled execution submits exactly this message to continue the associated work:
-
-`Go`
-
-Confirm the resolved total executions, interval, and next run time.
+For a valid start command, resolve T and D, use the current conversation automatically, create the supported cloud schedule, and confirm the resolved total, interval, and next run. Do not claim a schedule exists unless the scheduling action actually succeeds.
 
 ## Status
 
 `@AGoGo STATUS`
 
-Report the current AGoGo schedule state, including total, completed when available, remaining when available, interval, next run, and status.
+Report the associated AGoGo schedule state using actual available task state. Do not invent task status.
 
 ## Stop
 
 `@AGoGo STOP`
 
-Stop the active AGoGo schedule associated with the current work context and confirm its resulting state.
+Stop the associated active AGoGo schedule when supported and confirm only after the action succeeds.
