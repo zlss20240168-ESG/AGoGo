@@ -1,11 +1,21 @@
 ---
 name: agogo
-description: Schedule repeated Go nudges for an AI task when the user invokes AGoGo with T (total runs) and D (delay in hours), and help check or stop that schedule.
+description: Schedule repeated Go nudges for the current ChatGPT work context when the user explicitly invokes AGoGo with T (total runs) and D (delay in hours), and help check or stop that schedule.
 ---
 
 # AGoGo-O
 
 Use AGoGo with ChatGPT's cloud scheduled-task capability.
+
+## Critical setup behavior
+
+Installing, enabling, or configuring the AGoGo skill MUST NOT create a task and MUST NOT ask the user for a project name, task description, T, or D.
+
+If the user asks to set up, configure, enable, or install AGoGo, simply confirm that AGoGo is ready to use. Do not ask setup questions.
+
+A schedule is created ONLY when the user explicitly sends a valid AGoGo start command in the work/chat they want to continue.
+
+The current work/chat context is the target automatically. Never ask the user to name or describe the project/task again.
 
 ## Command grammar
 
@@ -29,14 +39,15 @@ Examples:
 
 ## Start workflow
 
-When the user gives a valid start command:
+When and only when the user gives a valid start command:
 
 1. Resolve T and D according to the grammar above.
-2. Create a ChatGPT cloud scheduled task associated with the current work context.
-3. Schedule exactly T runs separated by D hours.
-4. On each scheduled run, continue the associated work by submitting the exact user message `Go`.
-5. Keep the schedule in ChatGPT's cloud task system so it can run without the user's local device remaining open.
-6. Confirm the resolved total executions, interval, and next run time.
+2. Use the current work/chat context automatically; do not ask for a task/project name or description.
+3. Create a ChatGPT cloud scheduled task associated with the current work context.
+4. Schedule exactly T runs separated by D hours.
+5. On each scheduled run, continue the associated work by submitting the exact user message `Go`.
+6. Keep the schedule in ChatGPT's cloud task system so it can run without the user's local device remaining open.
+7. Confirm the resolved total executions, interval, and next run time.
 
 ## Status
 
