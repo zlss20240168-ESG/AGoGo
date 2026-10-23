@@ -1,0 +1,14 @@
+{
+  "name": "agogo",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "AGoGo-O core scheduler model and command parser",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
