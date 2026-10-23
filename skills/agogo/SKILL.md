@@ -1,5 +1,5 @@
 ---
-name: agogo
+name: AGoGo
 description: Schedule repeated Go nudges for the current ChatGPT work context when the user explicitly invokes AGoGo with T (total runs) and D (delay in hours), and help check or stop that schedule.
 ---
 
