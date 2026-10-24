@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agogo",
-  "version": "0.1.6",
-  "description": "Schedule simple Go nudges for long-running AI work in ChatGPT.",
+  "version": "0.1.7",
+  "description": "Schedule automatic repeated Go submissions in the current conversation, with status and stop commands.",
   "author": {
     "name": "Dr.HUMAN",
     "email": "zlss20240168@gmail.com",
@@ -13,17 +13,17 @@
   "license": "MIT",
   "keywords": [
     "scheduler",
-    "watchdog",
+    "automation",
+    "recurring",
     "workflow",
-    "research",
     "productivity"
   ],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "AGoGo",
-        "shortDescription": "Schedule Go nudges",
-        "longDescription": "AGoGo provides a simple command workflow for scheduling fixed Go continuation nudges for the current work context.",
+        "shortDescription": "Schedule automatic Go submissions",
+        "longDescription": "AGoGo automatically submits Go in the current ChatGPT conversation at a fixed interval for a fixed number of executions (up to 100 runs, up to 100-hour intervals; no infinite mode). Includes STATUS and STOP commands to inspect or stop the schedule.",
         "developerName": "Dr.HUMAN",
         "websiteURL": "https://github.com/zlss20240168-ESG/AGoGo",
         "category": "Productivity"
