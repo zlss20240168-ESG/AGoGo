@@ -1,43 +1,65 @@
 ---
 name: agogo
-description: Use AGoGo when the user explicitly invokes AGoGo with T (total runs) and D (interval hours), or asks for AGoGo status or stop.
+description: Schedules automatic repeated "Go" submissions in the current conversation. Use when the user invokes `@AGoGo T<n>D<n>` to start a schedule, or `@AGoGo STATUS` / `@AGoGo STOP` to inspect or stop one.
+version: 0.1.7
 ---
 
 # AGoGo
 
-Use the current conversation as the work context. Do not ask the user to name or describe the project again.
+Submit `Go` in the current conversation automatically, at a fixed interval, for a fixed number of executions. The current conversation is the work context. Never rename it.
 
-Do not create any schedule merely because AGoGo was installed, enabled, opened, or mentioned. Create a schedule only after an explicit valid start command.
+## Commands
 
-## Start
+| Command | Action |
+|---|---|
+| `@AGoGo T<n>D<n>` | Start a schedule |
+| `@AGoGo STATUS` | Report the actual state of the associated schedule |
+| `@AGoGo STOP` | Stop the associated active schedule |
 
-`@AGoGo Tn, Dn`
+## Parameters
 
-Rules:
-- T is the total number of executions.
-- D is the interval in hours.
-- T must appear before D.
-- Accept one or two digits for T and D.
-- `0` or `00` means 100.
-- No infinite mode.
-- Each scheduled continuation message must be exactly `Go`.
+- **T**: total number of automatic `Go` submissions.
+- **D**: interval in hours between automatic `Go` submissions.
+- Both accept 1–2 digits.
+- `0` or `00` resolves to **100**.
+- There is no infinite mode.
+- The start command format is `T<n>D<n>`.
+- `T` must appear before `D`.
+- Ignore spaces when parsing the start command.
+- For invalid input (wrong order, missing value, more than 2 digits, or non-numeric value), reply with the correct format `@AGoGo T<n>D<n>` and skip schedule creation.
 
-Examples:
-- `@AGoGo T10, D04` = 10 executions, every 4 hours.
-- `@AGoGo T1, D1` = 1 execution after 1 hour.
-- `@AGoGo T0, D1` = 100 executions, every 1 hour.
-- `@AGoGo T10, D0` = 10 executions, every 100 hours.
+## Execution Rules
 
-For a valid start command, resolve T and D, use the current conversation automatically, create the supported cloud schedule, and confirm the resolved total, interval, and next run. Do not claim a schedule exists unless the scheduling action actually succeeds.
+- The start command itself is **not** an execution.
+- The first execution occurs **one D interval after** the start command.
+- Each execution enters exactly `Go` in the current conversation and submits it.
+
+## Examples
+
+| Command | Result |
+|---|---|
+| `@AGoGo T10D04` | 10 executions, one every 4 hours |
+| `@AGoGo T1D1` | 1 execution, after 1 hour |
+| `@AGoGo T0D1` | 100 executions, one every 1 hour |
+| `@AGoGo T10D0` | 10 executions, one every 100 hours |
+
+## Start Procedure
+
+1. Read and save the current conversation title.
+2. Resolve T and D per the rules above.
+3. Create the schedule in the current conversation with the resolved values.
+4. Read the conversation title again.
+5. If the title differs from the saved one, restore the saved title; otherwise leave it unchanged.
+6. Verify that the associated task exists and is active.
 
 ## Status
 
-`@AGoGo STATUS`
-
-Report the associated AGoGo schedule state using actual available task state. Do not invent task status.
+On `@AGoGo STATUS`, report the schedule's actual available state, including execution progress and next execution time when available.
 
 ## Stop
 
-`@AGoGo STOP`
+On `@AGoGo STOP`, stop the active schedule and confirm the stop after it succeeds. If no active schedule exists, say so.
 
-Stop the associated active AGoGo schedule when supported and confirm only after the action succeeds.
+## Constraints
+
+- Never intentionally rename the conversation at any point in the AGoGo process.
